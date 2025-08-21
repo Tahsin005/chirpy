@@ -34,3 +34,14 @@ What is http.Server?
 What happens when ListenAndServe() is called?
 - The main function blocks until the server is shut down
 ```
+
+## Lession 3 (serving images)
+
+```
+bootdev run 20709716-4d7c-47fe-b182-9bccf8436ddc
+bootdev run 20709716-4d7c-47fe-b182-9bccf8436ddc -s
+```
+
+```
+When using a standard fileserver, the path to a file on disk is the same as its URL path. An exception is that index.html is served from / instead of /index.html.
+```
