@@ -46,7 +46,7 @@ bootdev run 20709716-4d7c-47fe-b182-9bccf8436ddc -s
 When using a standard fileserver, the path to a file on disk is the same as its URL path. An exception is that index.html is served from / instead of /index.html.
 ```
 
-## Lession 3 (workflow tips)
+## Lession 4 (workflow tips)
 
 ```
 Servers are different. They run forever, waiting for requests to come in, processing them, sending responses, and then waiting for the next request. If they didn't work this way, websites and apps would be down and unavailable all the time!
@@ -78,4 +78,11 @@ Restarting a server:
 
 What does the && do in this command? go build -o out && ./out
 - If the go build -o out succeeds with exit code 0, it runs ./out command
+```
+
+## Lession 5 (custom handlers)
+
+```
+bootdev run 174d13f0-f887-46c6-a633-d963662fde39
+bootdev run 174d13f0-f887-46c6-a633-d963662fde39 -s
 ```
