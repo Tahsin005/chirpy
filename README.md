@@ -110,3 +110,11 @@ You'll typically use a HandlerFunc when you want to implement a simple handler. 
 From which parameter would you get information about the HTTP method used by the client?
 - *Request
 ```
+
+## Lession 7 (routing - stateful handlers)
+
+```
+The atomic.Int32 type is a really cool standard-library type that allows us to safely increment and read an integer value across multiple goroutines (HTTP requests).
+
+The atomic.Int32 type has an .Add() method, use it to safely increment the number of fileserverHits.
+```
