@@ -418,6 +418,36 @@ A "migration" in Goose is just a .sql file with some SQL queries and some specia
 
 [~] tahsin005  main -  psql "postgres://postgres:postgres@localhost:5432/chirpy"
 
-psql -h localhost -U postgres -d chirpy
-```
+goose postgres <connection_string> up
 
+psql -h localhost -U postgres -d chirpy
+\dt
+```
+## Lesson 18 (storage - sqlc)
+
+```
+SQLC
+
+SQLC is an amazing Go program that generates Go code from SQL queries. It's not exactly an ORM, but rather a tool that makes working with raw SQL easy and type-safe.
+
+SQLC is just a command line tool, it's not a package that we need to import.
+
+go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+
+version: "2"
+sql:
+  - schema: "sql/schema"
+    queries: "sql/queries"
+    engine: "postgresql"
+    gen:
+      go:
+        out: "internal/database"
+
+We're telling SQLC to look in the sql/schema directory for our schema structure (which is the same set of files that Goose uses, but sqlc automatically ignores "down" migrations), and in the sql/queries directory for queries. We're also telling it to generate Go code in the internal/database directory.
+
+SQLC Doc: https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html
+
+Other required moduels:
+    go get github.com/google/uuid
+    go get github.com/joho/godotenv
+```
