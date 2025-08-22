@@ -119,7 +119,7 @@ The atomic.Int32 type is a really cool standard-library type that allows us to s
 The atomic.Int32 type has an .Add() method, use it to safely increment the number of fileserverHits.
 ```
 
-## Lession 7 (routing - middleware)
+## Lession 8 (routing - middleware)
 
 
 ```
@@ -137,4 +137,16 @@ func middlewareLog(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+```
+
+## Lession 9 (routing - routing)
+
+```
+Using the Go standard library, we can specify a method like this: [METHOD ][HOST]/[PATH]. For example:
+
+mux.HandleFunc("POST /articles", handlerArticlesCreate)
+mux.HandleFunc("DELETE /articles", handlerArticlesDelete)
+
+bootdev run d1c4962d-f55e-4f0f-ac9c-913db8ef8ae8
+bootdev run d1c4962d-f55e-4f0f-ac9c-913db8ef8ae8 -s
 ```
