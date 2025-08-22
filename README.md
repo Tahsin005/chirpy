@@ -175,5 +175,33 @@ Rules and Definitions
     We won't be using this but be aware that patterns can also start with a hostname (e.g., www.example.com/). This allows you to serve different content based on the Host header of the request. If both host-specific and non-host-specific patterns match, the host-specific pattern takes precedence.
 
 Given the patterns /assets/ and /assets/css/, which pattern would be selected to handle a request for the URL path /assets/css/style.css?
-- 
+-
+```
+
+## Lession 11 (architecture - monoliths and decoupling)
+
+```
+A monolith is a single, large program that contains all of the functionality for both the front-end and the back-end of an application. It's a common architecture for web applications.
+
+A "decoupled" architecture is one where the front-end and back-end are separated into different codebases. For example, the front-end might be hosted by a static file server on one domain, and the back-end might be hosted on a subdomain by a different server.
+
+Which Is Better?
+
+There is always a trade-off.
+Pros for Monoliths
+
+    Simpler to get started with
+    Easier to deploy new versions because everything is always in sync
+    In the case of the data being embedded in the HTML, the performance can result in better UX and SEO
+
+
+Pros for Decoupled Architectures
+
+    Easier, and probably cheaper, to scale as traffic grows
+    Easier to practice good separation of concerns as the codebase grows
+    Can be hosted on separate servers and using separate technologies
+    Embedding data in the HTML is still possible with pre-rendering (similar to how Next.js works), it's just more complicated
+
+Which will probably be cheaper to host as traffic and scope increases?
+- Decoupled
 ```
