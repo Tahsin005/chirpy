@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"sync/atomic"
@@ -10,7 +11,7 @@ type apiConfig struct {
 	fileserverHits atomic.Int32
 }
 
-func main () {
+func main() {
 	apiCfg := &apiConfig{}
 	mux := http.NewServeMux()
 
@@ -36,6 +37,37 @@ func healthzHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	w.Write([]byte("OK"))
+}
+
+func ValidateChirp(w http.ResponseWriter, r *http.Request) {
+	type chirpRequest struct {
+		Body string `json:"body"`
+	}
+
+	type errorResponse struct {
+		Error string `json:"error"`
+	}
+
+	type validateChirpResponse struct {
+		Valid bool `json:"valid"`
+	}
+
+	var req chirpRequest
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&req); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(errorResponse{Error: "Something went wrong"})
+		return
+	}
+
+	if len(req.Body) > 140 {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(errorResponse{Error: "Chirp is too long"})
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(validateChirpResponse{Valid: true})
 }
 
 func (cfg *apiConfig) middlewareMetricsInc(next http.Handler) http.Handler {
