@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"sync/atomic"
 )
 
@@ -16,6 +17,8 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /api/healthz", healthzHandler)
+
+	mux.HandleFunc("POST /api/validate_chirp", ValidateChirp)
 
 	fileServer := http.FileServer(http.Dir('.'))
 
@@ -48,8 +51,12 @@ func ValidateChirp(w http.ResponseWriter, r *http.Request) {
 		Error string `json:"error"`
 	}
 
+	// type validateChirpResponse struct {
+	// 	Valid bool `json:"valid"`
+	// }
+
 	type validateChirpResponse struct {
-		Valid bool `json:"valid"`
+		CleanedBody string `json:"cleaned_body"`
 	}
 
 	var req chirpRequest
@@ -66,8 +73,21 @@ func ValidateChirp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Replace profane words
+	profaneWords := []string{"kerfuffle", "sharbert", "fornax"}
+	cleanedBody := req.Body
+	words := strings.Fields(cleanedBody)
+	for i, word := range words {
+		for _, profane := range profaneWords {
+			if strings.EqualFold(word, profane) {
+				words[i] = "****"
+			}
+		}
+	}
+	cleanedBody = strings.Join(words, " ")
+
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(validateChirpResponse{Valid: true})
+	json.NewEncoder(w).Encode(validateChirpResponse{CleanedBody: cleanedBody})
 }
 
 func (cfg *apiConfig) middlewareMetricsInc(next http.Handler) http.Handler {
