@@ -205,3 +205,12 @@ Pros for Decoupled Architectures
 Which will probably be cheaper to host as traffic and scope increases?
 - Decoupled
 ```
+
+## Lession 12 (architecture - admin namespace)
+
+```
+"admin" namespace. This is where we'll put endpoints intended for internal administrative use. Note: there's nothing inherently more secure about this namespace, it's just an organizational structure.
+
+bootdev run 892b38f7-d154-4591-ac63-a9fbc2a38187
+bootdev run 892b38f7-d154-4591-ac63-a9fbc2a38187 -s
+```
