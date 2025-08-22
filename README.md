@@ -316,3 +316,38 @@ func handler(w http.ResponseWriter, r *http.Request){
     w.Write(data)
 }
 ```
+
+## Lesson 14 (json - json review)
+
+```
+struct - 1
+type parameters struct {
+    Name string `json:"name"`
+    Age int `json:"age"`
+    School struct {
+        Name string `json:"name"`
+        Location string `json:"location"`
+    } `json:"school"`
+}
+
+struct - 2
+type parameters struct {
+    name string `json:"name"`
+    Age int `json:"age"`
+}
+
+struct - 3
+type parameters struct {
+    Name string
+    Age int
+}
+
+What are the keys in the JSON representation of struct 1?
+- name, age, school, school.name, school.location
+
+Which keys will be parsed in the JSON representation of struct 2?
+- name, age
+
+What are the keys in the JSON representation of struct 3?
+- Name, Age
+```
