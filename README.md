@@ -397,3 +397,27 @@ ALTER ROLE
 chirpy=# SELECT version();
 chirpy=#
 ```
+
+## Lesson 17 (storage - goose migrations)
+
+```
+Goose Migrations
+
+Goose is a database migration tool written in Go (CLI Tool). It runs migrations from a set of SQL files.
+
+
+What Is a Migration?
+
+A migration is just a set of changes to your database table. You can have as many migrations as needed as your requirements change over time. For example, one migration might create a new table, one might delete a column, and one might add 2 new columns.
+
+An "up" migration moves the state of the database from its current schema to the schema that you want. So, to get a "blank" database to the state it needs to be ready to run your application, you run all the "up" migrations.
+
+If something breaks, you can run one of the "down" migrations to revert the database to a previous state. "Down" migrations are also used if you need to reset a local testing database to a known state.
+
+A "migration" in Goose is just a .sql file with some SQL queries and some special comments.
+
+[~] tahsin005  main -  psql "postgres://postgres:postgres@localhost:5432/chirpy"
+
+psql -h localhost -U postgres -d chirpy
+```
+
