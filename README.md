@@ -86,3 +86,27 @@ What does the && do in this command? go build -o out && ./out
 bootdev run 174d13f0-f887-46c6-a633-d963662fde39
 bootdev run 174d13f0-f887-46c6-a633-d963662fde39 -s
 ```
+
+## Lession 6 (handler review)
+
+```
+Handler:
+An http.Handler is any defined type that implements the set of methods defined by the Handler interface, specifically the ServeHTTP method.
+    ```
+    type Handler interface {
+        ServeHTTP(ResponseWriter, *Request)
+    }
+    ```
+The ServeMux used in the previous exercise is an http.Handler.
+
+You will typically use a Handler for more complex use cases, such as when you want to implement a custom router, middleware, or other custom logic.
+
+HandlerFunc:
+    ```
+    type HandlerFunc func(ResponseWriter, *Request)
+    ```
+You'll typically use a HandlerFunc when you want to implement a simple handler. The HandlerFunc type is just a function that matches the ServeHTTP signature above.
+
+From which parameter would you get information about the HTTP method used by the client?
+- *Request
+```
