@@ -214,3 +214,44 @@ Which will probably be cheaper to host as traffic and scope increases?
 bootdev run 892b38f7-d154-4591-ac63-a9fbc2a38187
 bootdev run 892b38f7-d154-4591-ac63-a9fbc2a38187 -s
 ```
+
+## Lession 13 (architecture - deployment options)
+
+```
+ow our choice of project architecture affects our deployment options, and how we could deploy our application in the future. We'll only talk about cloud deployment options here, and by the "cloud" I'm just referring to a remote server that's managed by a third-party company like Google or Amazon.
+
+
+Monolithic Deployment
+
+Deploying a monolith is straightforward. Because your server is just one program, you just need to get it running on a server that's exposed to the internet and point your DNS records to it.
+
+You could upload and run it on classic server, something like:
+
+    AWS EC2
+    GCP Compute Engine (GCE)
+    Digital Ocean Droplets
+    Azure Virtual Machines
+
+Alternatively, you could use a platform that's specifically designed to run web applications, like:
+
+    Heroku
+    Google App Engine
+    Fly.io
+    AWS Elastic Beanstalk
+
+Decoupled Deployment
+
+With a decoupled architecture, you have two different programs that need to be deployed. You would typically deploy your back-end to the same kinds of places you would deploy a monolith.
+
+For your front-end server, you can do the same, or you can use a platform that's specifically designed to host static files and server-side rendered front-end apps, something like:
+
+    Vercel
+    Netlify
+    GitHub Pages
+
+A classic virtual server like EC2 or GCE can be used to host...
+- Both
+
+Which is a better fit for Netlify?
+- Static front-end asset server
+```
