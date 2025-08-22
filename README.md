@@ -118,3 +118,23 @@ The atomic.Int32 type is a really cool standard-library type that allows us to s
 
 The atomic.Int32 type has an .Add() method, use it to safely increment the number of fileserverHits.
 ```
+
+## Lession 7 (routing - middleware)
+
+
+```
+Middleware
+
+Middleware is a way to wrap a handler with additional functionality. It is a common pattern in web applications that allows us to write DRY code. For example, we can write a middleware that logs every request to the server. We can then wrap our handler with this middleware and every request will be logged without us having to write the logging code in every handler.
+
+Here are examples of the middleware that we've written so far.
+
+Keeping Track of the Number of Times a Handler Has Been Called
+
+func middlewareLog(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s", r.Method, r.URL.Path)
+		next.ServeHTTP(w, r)
+	})
+}
+```
