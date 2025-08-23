@@ -466,3 +466,18 @@ Popular Databases
 Why do we care about whether data is stored in memory or on disk?
 - Data in memory is lost when the server is restarted, data on disk persists
 ```
+
+## Lesson 20 (storage - create user)
+
+```
+
+The Context Package
+
+The context package is a part of Go's standard library. It does several things, but the most important thing is that it handles timeouts. All of SQLC's database queries accept a context.Context as their first argument:
+
+    user, err := cfg.db.CreateUser(r.Context(), params.Email)
+
+By passing your handler's http.Request.Context() to the query, the library will automatically cancel the database query if the HTTP request is canceled or times out.
+
+The benefit is that it will save your server from getting bogged down by long-running queries!
+```
