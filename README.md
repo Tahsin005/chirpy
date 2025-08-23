@@ -451,3 +451,18 @@ Other required moduels:
     go get github.com/google/uuid
     go get github.com/joho/godotenv
 ```
+
+## Lesson 19 (storage - database review)
+
+```
+Popular Databases
+
+    PostgreSQL: A fantastic open-source SQL database.
+    MySQL: Another open-source SQL database. Less fantastic IMO.
+    MongoDB: A popular open-source NoSQL document database.
+    Firebase: A popular cloud-based NoSQL database service.
+    SQLite: A popular embedded SQL database.
+
+Why do we care about whether data is stored in memory or on disk?
+- Data in memory is lost when the server is restarted, data on disk persists
+```
