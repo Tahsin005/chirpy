@@ -470,7 +470,6 @@ Why do we care about whether data is stored in memory or on disk?
 ## Lesson 20 (storage - create user)
 
 ```
-
 The Context Package
 
 The context package is a part of Go's standard library. It does several things, but the most important thing is that it handles timeouts. All of SQLC's database queries accept a context.Context as their first argument:
