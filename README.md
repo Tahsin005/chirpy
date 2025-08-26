@@ -501,3 +501,22 @@ Which is the RESTful way to design an endpoint that returns a single user resour
 Which is the RESTful way to design an endpoint that returns all users?
 - GET /users
 ```
+
+## Lesson 22 (authentication - authentication with password)
+
+```
+Authentication is the process of verifying who a user is. If you don't have a secure authentication system, your back-end systems will be open to attack!
+
+Passwords
+
+Passwords are a common way to authenticate users. You know how they work: When a user signs up for a new account, they choose a password. When they log in, they enter their password again. The server will then compare the password they entered with the password that was stored in the database.
+
+There are 2 really important things to consider when storing passwords:
+
+    Storing passwords in plain text is awful. If someone gets access to your database, they will be able to see all of your users' passwords. If you store passwords in plain text, you are giving away your users' passwords to anyone who gets access to your database.
+    Password strength matters. If you allow users to choose weak passwords, they will be more likely to reuse the same password on other websites. If someone gets access to your database, they will be able to log in to your users' other accounts.
+
+Hashing
+
+On the other hand, we will be writing code to store passwords in a way that prevents them from being read by anyone who gets access to your database. This is called hashing. Hashing is a one-way function. It takes a string as input and produces a string as output. The output string is called a hash.
+```
