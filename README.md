@@ -521,7 +521,7 @@ Hashing
 On the other hand, we will be writing code to store passwords in a way that prevents them from being read by anyone who gets access to your database. This is called hashing. Hashing is a one-way function. It takes a string as input and produces a string as output. The output string is called a hash.
 ```
 
-## Lesson (authetication - password review)
+## Lesson 23 (authetication - password review)
 
 ```
 Passwords Should Be Strong
@@ -545,7 +545,7 @@ What is the best measure of password strength?
 - length
 ```
 
-## Lesson (authentication - types of authentication)
+## Lesson 24 (authentication - types of authentication)
 
 ```
 Here are a few of the most common authentication methods:
@@ -588,4 +588,12 @@ bd_JDS543J3n5NMKspDXNRlowiqw523lKHK32K43kl
 
 Which makes the most sense to authenticate a user of a command line application for secure API access?
 - API key
+```
+
+## Lesson 25 (authentication - jwt)
+
+```
+A JWT is a JSON Web Token. It's a cryptographically signed JSON object that contains information about the user.
+
+When your server issues a JWT to Bob, Bob can use that token to make requests as Bob to your API. Bob won't be able to change the token to make requests as Alice.
 ```
