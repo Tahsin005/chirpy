@@ -520,3 +520,27 @@ Hashing
 
 On the other hand, we will be writing code to store passwords in a way that prevents them from being read by anyone who gets access to your database. This is called hashing. Hashing is a one-way function. It takes a string as input and produces a string as output. The output string is called a hash.
 ```
+
+## Lesson (authetication - password review)
+
+```
+Passwords Should Be Strong
+
+The most important factor for the strength of a password is its entropy. Entropy is a measure of how many possible combinations of characters there are in a string. To put it simply:
+
+    The longer the password the better
+    Special characters and capitals should always be allowed
+    Special characters and capitals aren't as important as length
+
+Passwords Should Never Be Stored in Plain Text
+
+The most critical thing we can do to protect our users' passwords is to never store them in plain text. We should use cryptographically strong key derivation functions (which are a special class of hash functions) to store passwords in a way that prevents them from being read by anyone who gets access to your database.
+
+Bcrypt is a great choice. SHA-256 and MD5 are not.
+
+Which is a good hash function for passwords?
+- Bcrypt
+
+What is the best measure of password strength?
+- length
+```
