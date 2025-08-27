@@ -597,3 +597,18 @@ A JWT is a JSON Web Token. It's a cryptographically signed JSON object that cont
 
 When your server issues a JWT to Bob, Bob can use that token to make requests as Bob to your API. Bob won't be able to change the token to make requests as Alice.
 ```
+
+## Lesson 26 (authentication - authentication with jwt)
+
+```
+Authentication With JWTs
+
+Step 1: Login
+
+It would be pretty annoying if you had to enter your username and password every time you wanted to make a request to an API. Instead, after a user enters a username and password, our server should respond with a token (JWT) that's saved in the client's device.
+The token remains valid until it expires, at which point the user will need to log in again.
+
+Step 2: Using the Token
+
+When the user wants to make a request to the API, they send the token along with the request in the HTTP headers. The server can then verify that the token is valid, which means the user is who they say they are.
+```
