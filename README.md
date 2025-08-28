@@ -612,3 +612,22 @@ Step 2: Using the Token
 
 When the user wants to make a request to the API, they send the token along with the request in the HTTP headers. The server can then verify that the token is valid, which means the user is who they say they are.
 ```
+
+## Lesson 27 (authentication - jwt review)
+
+```
+JWTs are cryptographically signed JSON objects that contain information about an authenticated user.
+
+When your server issues a JWT to Bob, Bob can use that token to make requests as Bob to your API. Bob won't be able to change the token to make requests as Alice.
+
+
+JWTs Are Not Encrypted
+
+JWTs are not encrypted. Anyone who has the token can read the data (like the expiry and the user id) in the token. This is why you should never store sensitive information in a JWT. It's just a way to authenticate a user.
+
+The data stored in a JWT is encrypted so that only the server can read it.
+- False
+
+What happens if a client manually alters the encoded user ID in a JWT?
+- The server will know because the signature will be invalid
+```
