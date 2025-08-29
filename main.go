@@ -411,11 +411,17 @@ func (cfg *apiConfig) getAllChirpsHandler(w http.ResponseWriter, r *http.Request
 		Error string `json:"error"`
 	}
 
-	// Get author_id query parameter
-	authorIDStr := r.URL.Query().Get("author_id")
+	// Get sort query parameter
+	sortOrder := r.URL.Query().Get("sort")
+	if sortOrder == "" {
+		sortOrder = "asc" // Default to ascending
+	}
+
 	var chirps []database.Chirp
 	var err error
 
+	// Get author_id query parameter
+	authorIDStr := r.URL.Query().Get("author_id")
 	if authorIDStr != "" {
 		authorID, err := uuid.Parse(authorIDStr)
 		if err != nil {
@@ -423,9 +429,17 @@ func (cfg *apiConfig) getAllChirpsHandler(w http.ResponseWriter, r *http.Request
 			json.NewEncoder(w).Encode(errorResponse{Error: "Invalid author_id"})
 			return
 		}
-		chirps, err = cfg.dbQueries.GetChirpsByAuthor(r.Context(), authorID)
+		if sortOrder == "desc" {
+			chirps, err = cfg.dbQueries.GetChirpsByAuthorDesc(r.Context(), authorID)
+		} else {
+			chirps, err = cfg.dbQueries.GetChirpsByAuthor(r.Context(), authorID)
+		}
 	} else {
-		chirps, err = cfg.dbQueries.GetAllChirps(r.Context())
+		if sortOrder == "desc" {
+			chirps, err = cfg.dbQueries.GetAllChirpsDesc(r.Context())
+		} else {
+			chirps, err = cfg.dbQueries.GetAllChirps(r.Context())
+		}
 	}
 
 	if err != nil {
