@@ -735,3 +735,21 @@ For example, a hypothetical YouTuber ThePrimeagen should be allowed to edit and 
 
 Authorization logic is just the code that enforces these kinds of rules.
 ```
+
+## Lesson 32 (authorization - authentication vs authorization)
+
+```
+
+Authentication
+
+Verify who a user is, typically by asking for a password, api key, or other credentials.
+Authorization
+
+Only allow a verified user to perform actions that they are allowed to perform. Sometimes it's based on exactly who they are, but often it's based on a role, like "admin" or "owner".
+
+Blocking a user from deleting a GitHub organization because they are not the owner is an example of...
+- Authorization
+
+Requiring a user to verify an email account is an example of...
+- Authentication
+```
