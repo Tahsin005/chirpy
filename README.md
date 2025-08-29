@@ -739,7 +739,6 @@ Authorization logic is just the code that enforces these kinds of rules.
 ## Lesson 32 (authorization - authentication vs authorization)
 
 ```
-
 Authentication
 
 Verify who a user is, typically by asking for a password, api key, or other credentials.
@@ -752,4 +751,29 @@ Blocking a user from deleting a GitHub organization because they are not the own
 
 Requiring a user to verify an email account is an example of...
 - Authentication
+```
+
+## Lesson 32 (webhooks - webhooks)
+
+```
+Webhooks
+
+Webhooks sound like a scary advanced concept, but they're quite simple.
+
+A webhook is just an event that's sent to your server by an external service when something happens.
+
+For example, here at Boot.dev we use Stripe as a third-party payment processor. When a student makes a payment, Stripe sends a webhook to the Boot.dev servers so that we can unlock the student's membership.
+
+    Student makes a payment to stripe
+    Stripe processes the payment
+    If the payment is successful, Stripe sends an HTTP POST request to https://api.boot.dev/stripe/webhook (that's not the real URL, but you get the idea)
+
+That's it! The only real difference between a webhook and a typical HTTP request is that the system making the request is an automated system, not a human loading a webpage or web app. As such, webhook handlers must be idempotent because the system on the other side may retry the request multiple times.
+
+
+Idempo... What?
+
+Idempotent, or "idempotence", is a fancy word that means "the same result no matter how many times you do it". For example, your typical POST /api/chirps (create a chirp) endpoint will not be idempotent. If you send the same request twice, you'll end up with two chirps with the same information but different IDs.
+
+Webhooks, on the other hand, should be idempotent, and it's typically easy to build them this way because the client sends some kind of "event" and usually provides its own unique ID.
 ```
