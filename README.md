@@ -723,3 +723,15 @@ Cookies can store?
 Cookies are best used in...
 - Web apps
 ```
+
+## Lesson 31 (authorization - authorization)
+
+```
+Authorization
+
+While authentication is about verifying who a user is, authorization is about verifying what a user is allowed to do.
+
+For example, a hypothetical YouTuber ThePrimeagen should be allowed to edit and delete the videos on his account, and everyone should be allowed to view them. Another absolutely-not-real YouTuber TEEJ should be able to view ThePrimeagen's videos, but not edit or delete them.
+
+Authorization logic is just the code that enforces these kinds of rules.
+```

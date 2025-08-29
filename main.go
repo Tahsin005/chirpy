@@ -12,7 +12,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
 	"github.com/tahsin005/chirpy/internal/auth"
 	"github.com/tahsin005/chirpy/internal/database"
 )
@@ -57,6 +57,7 @@ func main() {
 	mux.HandleFunc("GET /api/healthz", healthzHandler)
 
 	mux.HandleFunc("POST /api/users", apiCfg.createUserHandler)
+	mux.HandleFunc("PUT /api/users", apiCfg.updateUserHandler)
 	mux.HandleFunc("POST /api/chirps", apiCfg.createChirpHandler)
 	mux.HandleFunc("GET /api/chirps", apiCfg.getAllChirpsHandler)
 	mux.HandleFunc("GET /api/chirps/{chirpID}", apiCfg.getChirpByIDHandler)
@@ -201,6 +202,93 @@ func (cfg *apiConfig) createUserHandler(w http.ResponseWriter, r *http.Request) 
 		Email:     user.Email,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
+	})
+}
+
+func (cfg *apiConfig) updateUserHandler(w http.ResponseWriter, r *http.Request) {
+	type userUpdateRequest struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	type userResponse struct {
+		ID        uuid.UUID `json:"id"`
+		Email     string    `json:"email"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
+	}
+
+	type errorResponse struct {
+		Error string `json:"error"`
+	}
+
+	// Get and validate access token
+	token, err := auth.GetBearerToken(r.Header)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(errorResponse{Error: err.Error()})
+		return
+	}
+
+	userID, err := auth.ValidateJWT(token, cfg.jwtSecret)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(errorResponse{Error: "Invalid or expired token"})
+		return
+	}
+
+	var req userUpdateRequest
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&req); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(errorResponse{Error: "Invalid request payload"})
+		return
+	}
+
+	// Validate input
+	if req.Email == "" || !strings.Contains(req.Email, "@") {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(errorResponse{Error: "Invalid email format"})
+		return
+	}
+	if req.Password == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(errorResponse{Error: "Password is required"})
+		return
+	}
+
+	// Hash the new password
+	hashedPassword, err := auth.HashPassword(req.Password)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(errorResponse{Error: "Failed to hash password"})
+		return
+	}
+
+	// Update user in database
+	updatedUser, err := cfg.dbQueries.UpdateUser(r.Context(), database.UpdateUserParams{
+		ID:             userID,
+		Email:          req.Email,
+		HashedPassword: hashedPassword,
+	})
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok && pqErr.Code == "23505" { // Unique violation
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(errorResponse{Error: "Email already exists"})
+			return
+		}
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(errorResponse{Error: "Failed to update user"})
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(userResponse{
+		ID:        updatedUser.ID,
+		Email:     updatedUser.Email,
+		CreatedAt: updatedUser.CreatedAt,
+		UpdatedAt: updatedUser.UpdatedAt,
 	})
 }
 
@@ -375,16 +463,16 @@ func (cfg *apiConfig) getChirpByIDHandler(w http.ResponseWriter, r *http.Request
 
 func (cfg *apiConfig) loginHandler(w http.ResponseWriter, r *http.Request) {
 	type loginRequest struct {
-		Email            string `json:"email"`
-		Password         string `json:"password"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
 	}
 
 	type loginResponse struct {
-		ID        uuid.UUID `json:"id"`
-		Email     string    `json:"email"`
-		CreatedAt time.Time `json:"created_at"`
-		UpdatedAt time.Time `json:"updated_at"`
-		Token     string    `json:"token"`
+		ID           uuid.UUID `json:"id"`
+		Email        string    `json:"email"`
+		CreatedAt    time.Time `json:"created_at"`
+		UpdatedAt    time.Time `json:"updated_at"`
+		Token        string    `json:"token"`
 		RefreshToken string    `json:"refresh_token"`
 	}
 
