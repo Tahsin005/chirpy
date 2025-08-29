@@ -797,3 +797,28 @@ Webhooks are ____, websockets are ____
 What will likely happen if your server responds to a webhook with a 5XX status code?
 - The third party will keep trying the exact same request
 ```
+
+## Lesson 34 (documentation - documentation)
+
+```
+Documentation
+
+As far as creating documentation goes, there are 2 main approaches:
+
+    Manually write documentation
+    Use a tool to generate documentation
+
+Obviously, the first approach is easier to get going with if you have a small API, but as the system grows, it can be really hard to keep the documentation up to date.
+
+Incorrect documentation is worse than no documentation.
+
+At least when there is no documentation, your clients will reach out and ask for clarification. When the documentation is incorrect, it can lead to a lot of wasted time and frustration.
+
+
+Automated Documentation Generation
+
+    Swagger
+    GraphQL (not RESTful, but still a networking API)
+    Godoc (which only works for REST APIs if you provide an SDK)
+    Postman (only useful if your team all uses Postman as their HTTP client)
+```
