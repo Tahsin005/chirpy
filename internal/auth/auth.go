@@ -3,6 +3,7 @@ package auth
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -81,4 +82,19 @@ func MakeRefreshToken() (string, error) {
 		return "", err
 	}
 	return hex.EncodeToString(b), nil
+}
+
+func GetAPIKey(headers http.Header) (string, error) {
+	authHeader := headers.Get("Authorization")
+	if authHeader == "" {
+		return "", errors.New("authorization header missing")
+	}
+
+	// Split and trim whitespace
+	keyParts := strings.Fields(authHeader)
+	if len(keyParts) != 2 || strings.ToLower(keyParts[0]) != "apikey" {
+		return "", errors.New("invalid authorization header format")
+	}
+
+	return keyParts[1], nil
 }

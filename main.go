@@ -23,6 +23,7 @@ type apiConfig struct {
 	dbQueries      *database.Queries
 	platform       string
 	jwtSecret      string
+	polkaKey 	   string
 }
 
 func main() {
@@ -32,12 +33,23 @@ func main() {
 	dbURL := os.Getenv("DB_URL")
 	platform := os.Getenv("PLATFORM")
 	jwtSecret := os.Getenv("JWT_SECRET")
+	polkaKey := os.Getenv("POLKA_KEY")
 	if platform == "" {
 		fmt.Fprintf(os.Stderr, "PLATFORM environment variable is required\n")
 		os.Exit(1)
 	}
 	if jwtSecret == "" {
 		fmt.Fprintf(os.Stderr, "JWT_SECRET environment variable is required\n")
+		os.Exit(1)
+	}
+
+	if dbURL == "" {
+		fmt.Fprintf(os.Stderr, "DB_URL environment variable is required\n")
+		os.Exit(1)
+	}
+
+	if polkaKey == "" {
+		fmt.Fprintf(os.Stderr, "POLKA_KEY environment variable is required\n")
 		os.Exit(1)
 	}
 
@@ -52,6 +64,7 @@ func main() {
 		dbQueries: dbQueries,
 		platform:  platform,
 		jwtSecret: jwtSecret,
+		polkaKey:  polkaKey,
 	}
 	mux := http.NewServeMux()
 
@@ -710,6 +723,21 @@ func (cfg *apiConfig) polkaWebhooksHandler(w http.ResponseWriter, r *http.Reques
 
 	type errorResponse struct {
 		Error string `json:"error"`
+	}
+
+	// Get and validate API key
+	apiKey, err := auth.GetAPIKey(r.Header)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(errorResponse{Error: err.Error()})
+		return
+	}
+
+	// Compare with stored API key
+	if apiKey != cfg.polkaKey {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(errorResponse{Error: "invalid API key"})
+		return
 	}
 
 	var req webhookRequest
