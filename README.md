@@ -670,3 +670,18 @@ Refresh tokens → Long-lived, but they can only be exchanged for new access tok
 
 That’s why they can be safely long-lived — even if compromised, additional security (like rotation, IP/device checks, and revocation) can mitigate risks.
 ```
+
+## Lesson 29 (authentication - refresh tokens)
+
+```
+Refresh Tokens
+
+To allow our users to stay logged in for longer periods,
+
+
+Session Store
+
+In our case, a refresh token will just be a random 256-bit string. It's a token, but not a JSON Web Token. It doesn't need to be a JWT because we'll store it in our database and associate it with a user server-side. No point in using stateless JWTs if we're going to store them in a database anyway.
+
+To revoke a refresh token, we'll set a revoked_at timestamp in the database. If revoked_at is not null, the token is revoked and will be considered invalid.
+```
